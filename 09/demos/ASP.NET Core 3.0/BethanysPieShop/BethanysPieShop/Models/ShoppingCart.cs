@@ -16,22 +16,18 @@ namespace BethanysPieShop.Models
 
         public List<ShoppingCartItem> ShoppingCartItems { get; set; }
 
-        private ShoppingCart(AppDbContext appDbContext)
+        private ShoppingCart(AppDbContext appDbContext)                 /***  PRIVATE CONSTRUCTOR ****/ 
         {
             _appDbContext = appDbContext;
         }
 
         public static ShoppingCart GetCart(IServiceProvider services)
         {
-            ISession session = services.GetRequiredService<IHttpContextAccessor>()?
-                .HttpContext.Session;
-
-            var context = services.GetService<AppDbContext>();
-
+            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
             string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
-
             session.SetString("CartId", cartId);
-
+            
+            var context = services.GetService<AppDbContext>();
             return new ShoppingCart(context) { ShoppingCartId = cartId };
         }
 
