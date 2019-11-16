@@ -37,7 +37,19 @@ namespace BethanysPieShop
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IPieRepository, PieRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            
+            
+            /* ******  NOTE: Here we are NOT doing the traditional Interface and Implementation when registering 
+                         Here we are telling exactly how the ShoppingCart needs to be instantiated ... note it needs 
+                         a parameter for instantiation. This parameter is the ServiceProvider, which is what sp is here
+                         ShoppingCart.GetCart() is a static method that creates a new shopping cart. The shopping cart's constructor
+                         is private. It needs a ServiceProvider so that it can have access to the other services registered in the DI
+                         
+                         Those classes that need to use the Shopping cart can just DI it by doing      ...ShoppingCart sc...
+                         there is NO NEED for an interface.
+            *********** /
             services.AddScoped<ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+
 
             services.AddHttpContextAccessor();
             services.AddSession();
