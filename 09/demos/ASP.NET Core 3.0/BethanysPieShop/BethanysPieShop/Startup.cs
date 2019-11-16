@@ -52,10 +52,10 @@ namespace BethanysPieShop
 
 
             services.AddHttpContextAccessor();
-            services.AddSession();
+            services.AddSession();                      /* *** Support for Session cookie *** */
 
-            services.AddControllersWithViews();//services.AddMvc(); would also work still
-            services.AddRazorPages();
+            services.AddControllersWithViews();         //services.AddMvc(); would also work still. it is from  core 2.1
+            services.AddRazorPages();                   /* *** RAZOR PAGES *** */
 
         }
 
@@ -69,11 +69,11 @@ namespace BethanysPieShop
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
+            app.UseSession();                           /* *** Support for Session cookie *** */
 
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuthentication();                    /* *** Authentication middleware *** */
+            app.UseAuthorization();                     /* *** Authorization middleware  *** */
 
             app.UseEndpoints(endpoints =>
             {
@@ -81,7 +81,7 @@ namespace BethanysPieShop
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapRazorPages();
+                endpoints.MapRazorPages();              /* *** RAZOR PAGES can co-exist with MVC framework *** */
             });
         }
     }
